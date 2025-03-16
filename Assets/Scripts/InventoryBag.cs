@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.UI;
 
 public class InventoryBag : MonoBehaviour
@@ -14,6 +15,9 @@ public class InventoryBag : MonoBehaviour
     private static readonly int OnHover = Animator.StringToHash("OnHover");
 
     [SerializeField] private GameObject panelUI;
+    
+    public UnityEvent<Item> onItemAdded;
+    public UnityEvent<Item> onItemRemoved;
 
     private void Awake()
     {
@@ -31,12 +35,20 @@ public class InventoryBag : MonoBehaviour
         slotUI.hasItem = true;
         slotUI.item = item;
         item.PickUp();
+        
+        onItemAdded.Invoke(item);
+        
+        ServerManager.Instance.SendDataToServer(item._id.ToString(), "item_added");
     }
 
     public void RemoveItem(Item item)
     {
         items.Remove(item);
         item.RespawnItem();
+        
+        onItemRemoved.Invoke(item);
+        
+        ServerManager.Instance.SendDataToServer(item._id.ToString(), "item_removed");
     }
 
     private void OnMouseOver()
