@@ -16,3 +16,4 @@ MonoBehaviour:
   type: weapon
   itemName: hammer
   weight: 1
+  icon: {fileID: 21300000, guid: c37306b0b16abc6439f4d399764ff63e, type: 3}

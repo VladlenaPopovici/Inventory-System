@@ -16,3 +16,4 @@ MonoBehaviour:
   type: toy
   itemName: duck
   weight: 0.2
+  icon: {fileID: 21300000, guid: 4281d6dbde0857846bfaf603077d5b71, type: 3}

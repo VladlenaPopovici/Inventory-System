@@ -7,4 +7,5 @@ public class ItemConfiguration : ScriptableObject
     public string type;
     public string itemName;
     public float weight;
+    public Sprite icon;
 }

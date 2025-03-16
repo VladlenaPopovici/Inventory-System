@@ -16,3 +16,4 @@ MonoBehaviour:
   type: spray
   itemName: paint bottle
   weight: 0.5
+  icon: {fileID: 21300000, guid: 924adbbf76da9da4d9e7f797f2194f91, type: 3}

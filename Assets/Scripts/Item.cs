@@ -2,30 +2,39 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Item : MonoBehaviour
 {
     [SerializeField] private ItemConfiguration _itemConfiguration;
     
-    private uint _id;
+    public uint _id;
     private string _type;
     private string _itemName;
     private float _weight;
+    private Sprite _icon;
 
     private Rigidbody _itemRigidbody;
 
     [SerializeField] private Vector3 _spawnPoint;
+
+    public Image icon;
+
+    private InventoryBag _inventoryBag;
     
     void Start()
     {
         _itemRigidbody = GetComponent<Rigidbody>();
         _spawnPoint = transform.position;
+        _inventoryBag = FindObjectOfType<InventoryBag>();
+
         if (_itemConfiguration != null)
         {
             _id = _itemConfiguration.id;
             _type = _itemConfiguration.type;
             _itemName = _itemConfiguration.itemName;
             _weight = _itemConfiguration.weight;
+            _icon = _itemConfiguration.icon;
         }
 
     }
@@ -57,9 +66,17 @@ public class Item : MonoBehaviour
             }
         
         }
-        transform.position = mousePosition;
         
-        Drop();
+        if (_inventoryBag.IsOverBag(transform.position))
+        {
+            _inventoryBag.AddItem(this);
+        }
+        else
+        {
+            transform.position = mousePosition;
+
+            Drop();
+        }
     }
 
     private Vector3 GetMouseWorldPosition()
@@ -72,6 +89,14 @@ public class Item : MonoBehaviour
     public void PickUp()
     {
         _itemRigidbody.isKinematic = true;
+    }
+
+    public void RespawnItem()
+    {
+        _spawnPoint.y = 1f;
+        // transform.position = _spawnPoint;
+        Drop();
+        _itemRigidbody.MovePosition(_spawnPoint);
     }
 
     public void Drop()
